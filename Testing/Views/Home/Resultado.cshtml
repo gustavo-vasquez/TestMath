@@ -1,0 +1,80 @@
+﻿@model Capa_Entidades.ecuacion
+
+
+@{
+    ViewBag.Title = "Resultado";
+}
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML-full"></script>
+<script>
+        MathJax.Hub.Config({
+            asciimath2jax: {
+                delimiters: [['$', '$']]
+            }
+        });
+</script>
+
+
+<script>
+        function mostrarSolucion() {
+            if ($("#solucion").is(':hidden')) {
+                $("#solucion").removeAttr('hidden');
+            }
+            else
+                $("#solucion").attr('hidden', true);
+        }
+
+        function mostrarDesarrollo() {
+            if ($("#desarrollo").is(':hidden')) {
+                $("#desarrollo").removeAttr('hidden');
+            }
+            else
+                $("#desarrollo").attr('hidden', true);
+        }
+</script>
+
+<div>
+    <div>
+        <h1 class="h1">Nº de ejercicio</h1>
+        @using (Html.BeginForm("Resultado", "Home", FormMethod.Post))
+        {
+            <div class="col-lg-2">
+                @{ Html.RenderPartial("_ComboEcuaciones", new Testing.Models.ListadoEcuaciones()); }
+            </div>
+            <div class="col-lg-2">
+                <button class="btn btn-primary" type="submit">Consultar</button>
+            </div>
+        }
+    </div>
+
+    <div class="clearfix"></div>
+
+    <div class="row">        
+        <h2 class="h2">Resuelva este ejercicio:</h2>
+        <div class="col-lg-2">
+            <p class="well well-sm">
+                @Html.Raw(Model.problema)
+            </p>
+        </div>        
+    </div>
+    <hr />
+    <div class="row">
+        <div class="col-lg-2">
+            <label class="control-label">El resultado es:</label>
+            <button class="btn btn-primary" id="verSolucion" onclick="mostrarSolucion();">Ver solucion</button>
+        </div>
+        <div class="col-lg-3">
+            <p class="well well-sm" id="solucion" hidden="hidden">@Html.Raw(Model.solucion)</p>
+        </div>
+    </div>
+    <hr />
+    <div class="row">
+        <div class="col-lg-2">
+            <button class="btn btn-primary" id="verDesarrollo" onclick="mostrarDesarrollo();">Ver desarrollo</button>
+        </div>
+        <div class="col-lg-3">
+            <p class="well well-sm" id="desarrollo" hidden="hidden">@Html.Raw(Model.desarrollo)</p>
+        </div>
+    </div>
+</div>
+

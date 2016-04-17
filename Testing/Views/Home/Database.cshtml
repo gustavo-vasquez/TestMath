@@ -1,0 +1,110 @@
+﻿@model Capa_Entidades.ecuacion
+
+@{
+    ViewBag.Title = "Database";
+}
+
+<script src="http://www.wiris.net/demo/editor/editor"></script>
+
+<script>
+    var problemEditor, developingEditor, solutionEditor;
+
+    window.onload = function () {
+        problemEditor = com.wiris.jsEditor.JsEditor.newInstance({ 'language': 'es' });
+        problemEditor.insertInto(document.getElementById('problemContainer'));
+
+        developingEditor = com.wiris.jsEditor.JsEditor.newInstance({ 'language': 'es' });
+        developingEditor.insertInto(document.getElementById('developingContainer'));
+
+        solutionEditor = com.wiris.jsEditor.JsEditor.newInstance({ 'language': 'es' });
+        solutionEditor.insertInto(document.getElementById('solutionContainer'));
+    }
+
+    function verProblema() {
+        $("#divProblema").show();
+        $("#divDesarrollo").hide();
+        $("#divSolucion").hide();
+    }
+
+    function verDesarrollo() {
+        $("#divProblema").hide();
+        $("#divDesarrollo").show();
+        $("#divSolucion").hide();
+    }
+
+    function verSolucion() {
+        $("#divProblema").hide();
+        $("#divDesarrollo").hide();
+        $("#divSolucion").show();
+    }
+
+    function copiar() {
+        copiarProblema();
+        copiarDesarrollo();
+        copiarSolucion();
+    }
+
+    function copiarProblema() {
+        $("#problema").val(problemEditor.getMathML());
+    }
+
+    function copiarDesarrollo() {
+        $("#desarrollo").val(developingEditor.getMathML());
+    }
+
+    function copiarSolucion() {
+        $("#solucion").val(solutionEditor.getMathML());
+    }
+</script>
+
+<div>
+    <div style="margin-bottom: 45px;"></div>
+    <button id="btnProblema" class="btn btn-success" onclick="verProblema();">1) ESCRIBIR PROBLEMA</button>
+    <button id="btnDesarrollo" class="btn btn-success" onclick="verDesarrollo();">2) ESCRIBIR DESARROLLO</button>
+    <button id="btnSolucion" class="btn btn-success" onclick="verSolucion();">3) ESCRIBIR SOLUCIÓN</button>
+
+    <div id="divProblema">
+        <h2>Escribir problema:</h2>
+        <div id="problemContainer" style="width:500px;height:300px"></div>
+    </div>
+
+    <div id="divDesarrollo" style="display: none;">
+        <h2>Escribir desarrollo:</h2>
+        <div id="developingContainer" style="width:500px;height:300px"></div>
+    </div>
+
+    <div id="divSolucion" style="display: none;">
+        <h2>Escribir solucion:</h2>
+        <div id="solutionContainer" style="width:500px;height:300px"></div>
+    </div>
+
+    <hr />
+
+    <button class="btn btn-danger" onclick="copiar();">COPIAR</button>
+    <br /><br />
+    @using (@Html.BeginForm("Database", "Home", new { HttpMethod = "POST" }))
+    {
+        <div class="row">
+            <div class="col-lg-4">
+                <label class="control-label">ProblemaMML: </label>
+                @Html.TextBoxFor(e => e.problema, new { @class = "form-control" })
+            </div>
+            
+            <div class="col-lg-4">
+                <label class="control-label">DesarrolloMML: </label>
+                @Html.TextBoxFor(e => e.desarrollo, new { @class = "form-control" })
+            </div>
+            
+            <div class="col-lg-4">
+                <label class="control-label">SolucionMML: </label>
+                @Html.TextBoxFor(e => e.solucion, new { @class = "form-control" })
+            </div>            
+        </div>
+
+        <hr />
+
+        <div class="row text-center">
+            <button class="btn btn-primary" type="submit">Guardar problema</button>
+        </div>
+    }
+</div>

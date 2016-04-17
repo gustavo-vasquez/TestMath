@@ -1,0 +1,3 @@
+﻿@model Testing.Models.ListadoEcuaciones
+
+@Html.DropDownListFor(l => l.id, Model.comboEcuaciones as IEnumerable<SelectListItem>, new { @class = "form-control" })
